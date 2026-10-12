@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- ============================================================
+       [HEAD] МЕТАДАННЫЕ, ШРИФТЫ, ПОДКЛЮЧЕНИЕ СТИЛЕЙ
+       - title / description  -> то, что видно в поиске и в превью ссылки
+       - favicon              -> assets/img/rc-logo.svg
+       - og:image             -> assets/img/og-cover.jpg (1200x630, положите свою картинку)
+       - стили                -> assets/css/style.css
+       ============================================================ -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RoboComm — бишкекский клуб робототехники</title>
+  <meta name="description" content="Бесплатный студенческий клуб робототехники в Бишкеке. Оборудование, компоненты и менторы — бесплатно. Приходи с 14 лет, опыт не нужен.">
+  <meta name="theme-color" content="#070a14">
+
+  <!-- Превью при отправке ссылки в Telegram / Instagram -->
+  <meta property="og:title" content="RoboComm — бишкекский клуб робототехники">
+  <meta property="og:description" content="Оборудование, компоненты и менторы — бесплатно. Приходи с 14 лет, опыт не нужен.">
+  <meta property="og:image" content="assets/img/og-cover.jpg">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="assets/img/Robologo.jpg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       [BACKGROUND] ФОН СТРАНИЦЫ
+       Цветные размытые «капли» (blob) — именно через них просвечивает
+       жидкое стекло. Цвета меняются в style.css (переменные --c1, --c2, --c3).
+       Если хотите фоновую фотографию/паттерн — положите в assets/img/
+       и подключите в .bg (style.css).
+       ============================================================ -->
+  <div class="bg" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+    <span class="grid"></span>
+  </div>
+
+  <!-- SVG-фильтр «жидкого» искажения для стекла. Не удаляйте — на него ссылается CSS. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="liquid" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+
+  <!-- ============================================================
+       [HEADER / NAV] ШАПКА И МЕНЮ
+       Пункты меню ведут на секции по id (#directions, #projects, ...).
+       Чтобы добавить пункт — добавьте <a> в .nav и секцию с таким же id.
+       Логотип: assets/img/rc-logo.svg (замените файл на свой).
+       ============================================================ -->
+  <header class="header" id="top">
+    <div class="header__bar glass">
+      <a class="brand" href="#hero" aria-label="RoboComm — на главную">
+        <img src="assets/img/Robologo.jpg" alt="" width="34" height="34">
+        <span>RoboComm</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Основное меню">
+        <a href="#directions">Направления</a>
+        <a href="#projects">Проекты</a>
+        <a href="#events">События</a>
+        <a href="#mentor">Стать ментором</a>
+        <a href="#about">О клубе</a>
+        <a class="nav__cta" href="#join">Вступить</a>
+      </nav>
+
+      <!-- Кнопка-бургер для телефонов (логика в assets/js/main.js) -->
+      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============================================================
+         [HERO] ПЕРВЫЙ ЭКРАН  (id="hero")
+         - Заголовок, подзаголовок, 2 кнопки, строка «возраст от 14 лет»
+         - Справа: видео-сборка логотипа (WebM, 8 сек, loop)
+           ВИДЕО КЛАДЁМ СЮДА: assets/video/logo-build.webm
+           (запасной вариант mp4: assets/video/logo-build.mp4)
+           Пока видео нет — показывается картинка-заглушка assets/img/rc-logo.svg
+         ============================================================ -->
+    <section class="hero" id="hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="chip glass">Приём открыт · Бишкек</p>
+          <h1>Бишкекский клуб <em>робототехники</em></h1>
+          <p class="lead">Оборудование, компоненты и менторы — бесплатно. Приходи с 14 лет, опыт не нужен.</p>
+
+          <ul class="facts">
+            <li>участие бесплатное</li>
+            <li>своё помещение и компоненты</li>
+            <li>путь от Arduino до ROS</li>
+          </ul>
+
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#events">Прийти на открытую встречу</a>
+            <a class="btn btn--glass" href="#projects">Смотреть проекты</a>
+          </div>
+          <p class="note">Возраст — от 14 лет. Других требований нет.</p>
+        </div>
+
+        <!-- Блок с видео/логотипом -->
+        <div class="hero__media glass glass--lg">
+          <video class="hero__video" autoplay muted loop playsinline
+                 poster="assets/img/Robologo.jpg" aria-hidden="true">
+            <source src="assets/video/logo-build.webm" type="video/webm">
+            <source src="assets/video/logo-build.mp4" type="video/mp4">
+          </video>
+          <span class="hero__caption">видео-сборка логотипа · WebM · 8 сек · loop</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         [01 · НАПРАВЛЕНИЯ]  (id="directions")
+         4 карточки-ступени. Каждая: номер, название, описание, теги.
+         Чтобы изменить — правьте текст внутри <article class="step">.
+         Тексты ступеней — черновик (на robocomm они подгружались скриптом),
+         замените на реальные.
+         ============================================================ -->
+    <section class="section" id="directions">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">01 / направления</p>
+          <h2>Четыре ступени</h2>
+        </header>
+
+        <div class="steps">
+          <article class="step glass reveal">
+            <span class="step__n">01</span>
+            <h3>Механика и электроника</h3>
+            <p>Конструкции, приводы, пайка, чтение схем. Собираешь первую платформу своими руками.</p>
+            <ul class="tags"><li>пайка</li><li>3D-печать</li><li>датчики</li></ul>
+          </article>
+
+          <article class="step glass reveal">
+            <span class="step__n">02</span>
+            <h3>Arduino и микроконтроллеры</h3>
+            <p>Программируешь поведение робота: моторы, датчики, прерывания, протоколы связи.</p>
+            <ul class="tags"><li>Arduino</li><li>C/C++</li><li>ESP32</li></ul>
+          </article>
+
+          <article class="step glass reveal">
+            <span class="step__n">03</span>
+            <h3>Raspberry Pi и зрение</h3>
+            <p>Одноплатные компьютеры, камера, Linux. Робот начинает «видеть» и принимать решения.</p>
+            <ul class="tags"><li>Raspberry Pi</li><li>Python</li><li>OpenCV</li></ul>
+          </article>
+
+          <article class="step glass reveal">
+            <span class="step__n">04</span>
+            <h3>ROS 2 и автономность</h3>
+            <p>Навигация, карты, локализация, работа в команде над сложной платформой.</p>
+            <ul class="tags"><li>ROS 2</li><li>SLAM</li><li>Nav2</li></ul>
+          </article>
+        </div>
+
+        <p class="hint reveal">Ступень выбираешь сам. Можно начать с первой, можно сразу с той, что по силам.</p>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         [02 · ПРОЕКТЫ]  (id="projects")
+         3 карточки: статус-плашка, название, описание, ссылка «Подробнее».
+         Фото проекта (по желанию) кладём в assets/img/projects/
+         и добавляем <img> внутрь .project перед <h3>.
+         ============================================================ -->
+    <section class="section" id="projects">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">02 / проекты</p>
+          <h2>Над чем работают команды</h2>
+        </header>
+
+        <div class="projects">
+          <article class="project glass reveal">
+            <div class="project__meta">
+              <span class="badge badge--live">активно</span>
+              <span class="project__stack">WRO / WRCC</span>
+            </div>
+            <h3>Подготовка к соревнованиям</h3>
+            <p>Команда готовится к республиканскому отбору по регламентам WRO/WRCC: сборка, отладка, прогоны на время.</p>
+            <a class="link" href="#join">Подробнее →</a>
+          </article>
+
+          <article class="project glass reveal">
+            <div class="project__meta">
+              <span class="badge badge--open">команда набирается</span>
+              <span class="project__stack">RPi · OpenCV · ROS 2</span>
+            </div>
+            <h3>Автономная платформа</h3>
+            <p>Колёсный робот на Raspberry Pi с камерой. Цель — навигация без оператора: карта, локализация, объезд препятствий.</p>
+            <a class="link" href="#join">Подробнее →</a>
+          </article>
+
+          <article class="project glass reveal">
+            <div class="project__meta">
+              <span class="badge badge--idea">приём идей</span>
+              <span class="project__stack">стек — твой</span>
+            </div>
+            <h3>Открытый проект</h3>
+            <p>Направление предлагает сам участник. Клуб даёт стол, компоненты и ментора — остальное делает команда.</p>
+            <a class="link" href="#join">Подробнее →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         [03 · СОБЫТИЯ]  (id="events")
+         Список ближайших встреч. Одна строка = одно событие:
+         дата | название | место | кнопка «Записаться».
+         ДАТЫ И МЕСТА — ЗАГЛУШКИ, поменяйте на реальные.
+         Чтобы добавить событие — скопируйте <li class="event">…</li>.
+         ============================================================ -->
+    <section class="section" id="events">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">03 / события</p>
+          <h2>Ближайшее расписание</h2>
+        </header>
+
+        <ul class="events glass glass--lg reveal">
+          <li class="event">
+            <time class="event__date" datetime="2026-10-18">18 окт</time>
+            <div class="event__body">
+              <strong>Открытая встреча для новичков</strong>
+              <span>Бишкек, помещение клуба (адрес уточним в боте)</span>
+            </div>
+            <a class="btn btn--glass btn--sm" href="#join">Записаться</a>
+          </li>
+          <li class="event">
+            <time class="event__date" datetime="2026-10-25">25 окт</time>
+            <div class="event__body">
+              <strong>Воркшоп: первая пайка и Arduino</strong>
+              <span>Бишкек, помещение клуба</span>
+            </div>
+            <a class="btn btn--glass btn--sm" href="#join">Записаться</a>
+          </li>
+          <li class="event">
+            <time class="event__date" datetime="2026-11-08">8 ноя</time>
+            <div class="event__body">
+              <strong>Внутренний отбор команды WRO/WRCC</strong>
+              <span>Бишкек, помещение клуба</span>
+            </div>
+            <a class="btn btn--glass btn--sm" href="#join">Записаться</a>
+          </li>
+        </ul>
+
+        <p class="more reveal"><a class="link" href="https://t.me/robocomm" target="_blank" rel="noopener">Полный календарь в Telegram →</a></p>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         [04 · ПУТЬ УЧАСТНИКА / СТАТЬ МЕНТОРОМ]  (id="mentor")
+         На него ведёт пункт меню «Стать ментором».
+         4 шага цепочки + пояснение про BIROK + кнопка.
+         ============================================================ -->
+    <section class="section" id="mentor">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">04 / путь участника</p>
+          <h2>Из участника — в ментора</h2>
+        </header>
+
+        <ol class="path reveal">
+          <li class="glass"><span>01</span>Участник</li>
+          <li class="arrow" aria-hidden="true">→</li>
+          <li class="glass"><span>02</span>Ведёт направление в клубе</li>
+          <li class="arrow" aria-hidden="true">→</li>
+          <li class="glass"><span>03</span>Сертифицированный ментор BIROK</li>
+          <li class="arrow" aria-hidden="true">→</li>
+          <li class="glass"><span>04</span>Работа с командами на международных соревнованиях</li>
+        </ol>
+
+        <div class="callout glass reveal">
+          <p>RoboComm — бесплатный студенческий клуб. BIROK — организация, которая готовит менторов для международных соревнований и работает со школами на платной основе. Те, кто вырос в клубе, попадают в менторскую программу BIROK.</p>
+          <a class="btn btn--primary" href="#join">Взять направление в клубе</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         [05 · О КЛУБЕ]  (id="about")
+         Текст о клубе + карточка основателя + 2 свободных «слота ментора».
+         ФОТО ОСНОВАТЕЛЯ КЛАДЁМ СЮДА: assets/img/team/founder.jpg
+         (квадрат, от 400×400). Пока фото нет — стоит монограмма «АА».
+         Новый ментор: скопируйте блок .mentor-slot и замените на .person.
+         ============================================================ -->
+    <section class="section" id="about">
+      <div class="container about">
+        <div class="about__text reveal">
+          <p class="eyebrow">05 / о клубе</p>
+          <h2>Работаем с августа 2024</h2>
+          <p>RoboComm работает с августа 2024 года. Мы не занимаемся сборкой по готовым наборам: участник проходит путь от механики до ROS и собирает собственного робота. Внутренние соревнования — способ отобрать команду на республиканский отбор.</p>
+          <p class="partners">Клуб работает при поддержке BIROK и WE FUND. Вопросы партнёрства — <a href="mailto:birok@robocomm.kg">birok@robocomm.kg</a></p>
+        </div>
+
+        <!-- Сетка основателя и менторов на всю ширину снизу -->
+        <div class="about__people">
+          <!-- 1. Адыкерим Аденов -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Adenov_img.jpg" alt="Абдыкерим Аденов">
+              <span>АА</span>
+            </div>
+            <div>
+              <p class="eyebrow">основатель</p>
+              <h3>Абдыкерим Аденов</h3>
+              <ul class="bullets">
+                <li>Руководитель BIROK</li>
+                <li>WRCC 2026, Баку</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- 2. Ментор -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Kumushbekov_img.jpg" alt="Кумушбеков Анвар">
+            </div>
+            <div>
+              <p class="eyebrow">Разработчик</p>
+              <h3>Кумушбеков Анвар</h3>
+              <ul class="bullets">
+                <li>Направление</li>
+                <li>Достижение</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- 3. Ментор -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Satymkulov_img.jpg" alt="Сатымкулов Адилхан">
+              
+            </div>
+            <div>
+              <p class="eyebrow">Техлид</p>
+              <h3>Сатымкулов Адилхан</h3>
+              <ul class="bullets">
+                <li>Направление</li>
+                <li>Достижение</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- 4. Ментор -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Mairambekova_img.jpg" alt="Майрамбекова Айзирек">
+            </div>
+            <div>
+              <p class="eyebrow">SMM - специалист</p>
+              <h3>Майрамбекова Айзирек</h3>
+              <ul class="bullets">
+                <li>Направление</li>
+                <li>Достижение</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- 5. Ментор -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Timurova_img.jpg" alt="Тимурова Аиша">
+            </div>
+            <div>
+              <p class="eyebrow">Координатор клуба</p>
+              <h3>Тимурова Аиша</h3>
+              <ul class="bullets">
+                <li>Направление</li>
+                <li>Достижение</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- 6. Ментор -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Urmatbekova_img.jpg" alt="Урматбекова Райана">
+            </div>
+            <div>
+              <p class="eyebrow">Проектный менеджер</p>
+              <h3>Урматбекова Райана</h3>
+              <ul class="bullets">
+                <li>Направление</li>
+                <li>Достижение</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- 7. Ментор -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Ashirbekova_img.jpg" alt="Аширбекова Акылай">
+            </div>
+            <div>
+              <p class="eyebrow">Ивент менеджер</p>
+              <h3>Аширбекова Акылай</h3>
+              <ul class="bullets">
+                <li>Направление</li>
+                <li>Достижение</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- 8. Ментор -->
+          <article class="person glass reveal">
+            <div class="person__photo">
+              <img src="assets/img/team/Erkinbekova_img.jpg" alt="Элина Эркинбекова">
+            </div>
+            <div>
+              <p class="eyebrow">Неопределено</p>
+              <h3>Элина Эркинбекова</h3>
+              <ul class="bullets">
+                <li>Направление</li>
+                <li>Достижение</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         [06 · КАК УСТРОЕН КЛУБ]  (id="how")
+         Заголовок + 3 колонки: «Что даёт клуб / Что требуется от тебя /
+         Чего у нас нет». Ниже — блок цитат участников.
+         ЦИТАТЫ — ЗАГЛУШКИ (на robocomm подгружались скриптом),
+         замените текст и подписи на реальные отзывы.
+         ============================================================ -->
+    <section class="section" id="how">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">06 / как устроен клуб</p>
+          <h2>Участие бесплатное</h2>
+          <p class="lead">Клуб держат сами участники: студенты ведут занятия, организуют отборы и закупают компоненты. Ты не покупаешь курс — ты входишь в команду.</p>
+        </header>
+
+        <div class="cols">
+          <article class="col glass reveal">
+            <h3>Что даёт клуб</h3>
+            <ul class="bullets">
+              <li>Помещение с рабочими столами</li>
+              <li>Оборудование: паяльные станции, мультиметры, принтер</li>
+              <li>Компоненты за счёт клуба</li>
+              <li>Менторы из числа студентов и выпускников</li>
+            </ul>
+          </article>
+
+          <article class="col glass reveal">
+            <h3>Что требуется от тебя</h3>
+            <ul class="bullets">
+              <li>Регулярность: приходить, а не заглядывать раз в месяц</li>
+              <li>Доводить проект до рабочего состояния</li>
+              <li>Помогать новым участникам</li>
+            </ul>
+          </article>
+
+          <article class="col glass reveal">
+            <h3>Чего у нас нет</h3>
+            <ul class="bullets">
+              <li>Расписания «под ключ»</li>
+              <li>Домашних заданий и оценок</li>
+              <li>Контроля: всё держится на том, что ты приходишь сам</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Цитаты участников. q = цитата, sign = подпись, a = ответ клуба/пояснение -->
+        <div class="quotes">
+          <blockquote class="quote glass reveal">
+            <p>«Здесь никто не раздаёт готовые инструкции — зато всегда есть, у кого спросить.»</p>
+            <footer>— участник клуба</footer>
+          </blockquote>
+          <blockquote class="quote glass reveal">
+            <p>«Пришёл без опыта, через полгода паял платы и писал код для своего робота.»</p>
+            <footer>— участник клуба</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         [JOIN · ПРИЗЫВ К ДЕЙСТВИЮ]  (id="join")
+         Главная кнопка ведёт в Telegram-бот: https://t.me/robocomm_bot
+         Здесь же можно будет подключить форму листа ожидания
+         (ФИО, почта, телефон, возраст) — сейчас это обычная ссылка на бота.
+         ============================================================ -->
+    <section class="section join" id="join">
+      <div class="container">
+        <div class="join__card glass glass--lg reveal">
+          <h2>Приходи на открытую встречу</h2>
+          <p class="lead">Ничего приносить и заранее знать не нужно.</p>
+          <a class="btn btn--primary btn--lg" href="" target="_blank" rel="noopener">Оставить заявку</a>
+          <div class="join__social">
+            <a class="btn btn--glass" href="https://www.instagram.com/robo_comm?mdxt=MWNha2JmdTc3MTVtdw%3D%3D" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ============================================================
+       [FOOTER] ПОДВАЛ
+       Логотип, копирайт (год подставляется скриптом), соцсети, почта.
+       ============================================================ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a class="brand" href="#hero">
+        <img src="assets/img/Robologo.jpg" alt="" width="30" height="30">
+        <span>RoboComm</span>
+      </a>
+      <p>© <span id="year">2026</span> RoboComm, Бишкек</p>
+      <p class="footer__links">
+        <a href="https://instagram.com/robocomm" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://t.me/robocomm" target="_blank" rel="noopener">Telegram</a>
+        <a href="mailto:hello@robocomm.kg">hello@robocomm.kg</a>
+      </p>
+      <p class="footer__note">RoboComm — инициатива BIROK.</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       [SCRIPTS] assets/js/main.js — меню, анимация появления,
+       блик стекла за курсором, год в подвале.
+       ============================================================ -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
